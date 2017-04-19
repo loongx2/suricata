@@ -1251,7 +1251,9 @@ static int DeStateSigTest02(void)
     DetectEngineState *tx_de_state = AppLayerParserGetTxDetectState(IPPROTO_TCP, ALPROTO_HTTP, tx);
     FAIL_IF_NULL(tx_de_state);
     FAIL_IF(tx_de_state->dir_state[0].cnt != 1);
-    FAIL_IF(tx_de_state->dir_state[0].head->store[0].flags != BIT_U32(DE_STATE_FLAG_BASE));
+    /* http_header(mpm): 6, uri: 4, method: 7, cookie: 8 */
+    uint32_t expected_flags = (BIT_U32(6) | BIT_U32(4) | BIT_U32(7) |BIT_U32(8));
+    FAIL_IF(tx_de_state->dir_state[0].head->store[0].flags != expected_flags);
 
     FLOWLOCK_WRLOCK(&f);
     r = AppLayerParserParse(NULL, alp_tctx, &f, ALPROTO_HTTP,

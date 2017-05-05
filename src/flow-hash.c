@@ -406,6 +406,14 @@ static Flow *FlowGetNew(ThreadVars *tv, DecodeThreadVars *dtv, const Packet *p)
     }
 
     FLOWLOCK_WRLOCK(f);
+
+#ifdef UNITTESTS
+    if (tv && dtv) {
+#endif
+        StatsIncr(tv, dtv->counter_flow_count);
+#ifdef UNITTESTS
+    }
+#endif
     return f;
 }
 

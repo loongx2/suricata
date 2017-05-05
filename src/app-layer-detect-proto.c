@@ -1624,7 +1624,8 @@ void AppLayerProtoDetectRegisterProtocol(AppProto alproto, const char *alproto_n
  *  \param dp destination port to use in protocol detection. Set to 443
  *            for start tls, set to the HTTP uri port for CONNECT and
  *            set to 0 to not use it.
- *  \param expect_proto TODO unused
+ *  \param expect_proto expected protocol. AppLayer event will be set if
+ *                      detected protocol differs from this.
  */
 void AppLayerRequestProtocolChange(Flow *f, uint16_t dp, AppProto expect_proto)
 {
